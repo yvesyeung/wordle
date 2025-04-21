@@ -9,10 +9,10 @@ const port = process.env.PORT || 3000;
 const path = require("path");
 
 // Serve static files from frontend
-app.use(express.static(path.join(__dirname, "frontend")));
+app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 const dictionary = [
