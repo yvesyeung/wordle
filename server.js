@@ -16,13 +16,13 @@ app.get("/", (req, res) => {
 });
 
 const dictionary = [
-  "alien",
-  "laugh",
-  "bayou",
-  "zebra",
-  "onion",
-  "hello",
-  "apple",
+  "ALIEN",
+  "LAUGH",
+  "BAYOU",
+  "ZEBRA",
+  "ONION",
+  "HELLO",
+  "APPLE",
 ];
 
 const getDailyWord = () => {

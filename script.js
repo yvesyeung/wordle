@@ -15,7 +15,6 @@ const getWord = async function () {
 // Function to handle submitted guess
 const submitGuess = async function () {
   const targetWord = await getWord();
-  console.log(targetWord);
 
   // Word not long enough
   if (currTile < 5) {
