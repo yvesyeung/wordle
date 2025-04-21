@@ -1,6 +1,9 @@
+// Manage game state
 let guessWord = ["", "", "", "", ""];
 let currRow = 0;
 let currTile = 0;
+
+// Get HTML elements
 let row = document.getElementsByClassName("row")[currRow];
 let tiles = row.getElementsByClassName("tile");
 const result = document.getElementById("result");
@@ -10,6 +13,15 @@ const getWord = async function () {
   const response = await fetch("/word");
   const data = await response.json();
   return data.word;
+};
+
+// Function to check if word is valid
+const isValidWord = async function (word) {
+  const response = await fetch(
+    `https://api.datamuse.com/words?sp=${word}&max=1`
+  );
+  const data = await response.json();
+  return data.length > 0 && data[0].word.toLowerCase() === word.toLowerCase();
 };
 
 // Function to animate result message
@@ -23,16 +35,15 @@ const shake = function (message) {
 const submitGuess = async function () {
   const targetWord = await getWord();
 
-  // Word not long enough
+  // Check if word is long enough
   if (currTile < 5) {
     result.textContent = "Not enough letters!";
     shake(result);
     return;
   }
 
+  // Check if word is invalid
   const isValid = await isValidWord(guessWord.join(""));
-
-  // Word is invalid
   if (!isValid) {
     result.textContent = "Invalid word!";
     shake(result);
@@ -90,15 +101,6 @@ const submitGuess = async function () {
     result.textContent = "Guess again";
     shake(result);
   }
-};
-
-// Function to check if word is valid
-const isValidWord = async function (word) {
-  const response = await fetch(
-    `https://api.datamuse.com/words?sp=${word}&max=1`
-  );
-  const data = await response.json();
-  return data.length > 0 && data[0].word.toLowerCase() === word.toLowerCase();
 };
 
 // Listen to key presses and take appropriate action
