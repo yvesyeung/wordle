@@ -66,7 +66,7 @@ const submitGuess = async function () {
 
   // Player wins
   if (correctLetters == 5) {
-    result.textContent = "You win!";
+    result.textContent = "You win! Play again tomorrow for a new word!";
     result.classList.remove("shake");
     void result.offsetWidth;
     result.classList.add("shake");
