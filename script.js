@@ -1,4 +1,5 @@
 // Manage game state
+const targetWord = await getWord();
 let guessWord = ["", "", "", "", ""];
 let currRow = 0;
 let currTile = 0;
@@ -9,32 +10,32 @@ let tiles = row.getElementsByClassName("tile");
 const result = document.getElementById("result");
 
 // Function to get daily word
-const getWord = async function () {
-  const response = await fetch("/word");
+async function getWord() {
+  const response = await fetch(
+    "https://pacific-crag-02720-276b4f747b19.herokuapp.com/word"
+  );
   const data = await response.json();
   return data.word;
-};
+}
 
 // Function to check if word is valid
-const isValidWord = async function (word) {
+async function isValidWord(word) {
   const response = await fetch(
     `https://api.datamuse.com/words?sp=${word}&max=1`
   );
   const data = await response.json();
   return data.length > 0 && data[0].word.toLowerCase() === word.toLowerCase();
-};
+}
 
 // Function to animate result message
-const shake = function (message) {
+function shake(message) {
   message.classList.remove("shake");
   void message.offsetWidth;
   message.classList.add("shake");
-};
+}
 
 // Function to handle submitted guess
-const submitGuess = async function () {
-  const targetWord = await getWord();
-
+async function submitGuess() {
   // Check if word is long enough
   if (currTile < 5) {
     result.textContent = "Not enough letters!";
@@ -101,7 +102,7 @@ const submitGuess = async function () {
     result.textContent = "Guess again";
     shake(result);
   }
-};
+}
 
 // Listen to key presses and take appropriate action
 document.addEventListener("keydown", function (event) {
