@@ -1,9 +1,9 @@
 body {
   font-family: Arial, sans-serif;
   background: #ffffff;
-  color: #ffffff;
+  color: #000000;
   text-align: center;
-  padding-top: 50px;
+  /* padding-top: 50px; */
 }
 
 .row {
@@ -30,10 +30,6 @@ body {
   align-items: center;
 }
 
-.tile.populated {
-  border-color: #787c7e;
-}
-
 .tile.correct {
   color: #ffffff;
   background-color: #6aaa64;
@@ -50,4 +46,26 @@ body {
   color: #ffffff;
   background-color: #787c7e;
   border-color: #787c7e;
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
