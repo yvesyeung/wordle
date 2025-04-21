@@ -1,10 +1,18 @@
-const targetWord = "HELLO"; // Word to guess
-let guessWord = ["", "", "", "", ""];
 let currRow = 0;
 let currTile = 0;
 let row = document.getElementsByClassName("row")[currRow];
 let tiles = row.getElementsByClassName("tile");
 const result = document.getElementById("result");
+
+const targetWord = getWord();
+let guessWord = ["", "", "", "", ""];
+
+// Function to get daily word
+const getWord = async function () {
+  const response = await fetch("/word");
+  const data = await response.json();
+  return data.word;
+};
 
 // Function to handle submitted guess
 const submitGuess = async function () {
