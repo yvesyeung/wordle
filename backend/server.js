@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
+const path = require("path");
 
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, "frontend")));
