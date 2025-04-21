@@ -1,3 +1,10 @@
+let guessWord = ["", "", "", "", ""];
+let currRow = 0;
+let currTile = 0;
+let row = document.getElementsByClassName("row")[currRow];
+let tiles = row.getElementsByClassName("tile");
+const result = document.getElementById("result");
+
 // Function to get daily word
 const getWord = async function () {
   const response = await fetch("/word");
@@ -5,17 +12,10 @@ const getWord = async function () {
   return data.word;
 };
 
-const targetWord = getWord();
-let guessWord = ["", "", "", "", ""];
-
-let currRow = 0;
-let currTile = 0;
-let row = document.getElementsByClassName("row")[currRow];
-let tiles = row.getElementsByClassName("tile");
-const result = document.getElementById("result");
-
 // Function to handle submitted guess
 const submitGuess = async function () {
+  const targetWord = await getWord();
+
   // Word not long enough
   if (currTile < 5) {
     result.textContent = "Not enough letters!";
