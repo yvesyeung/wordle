@@ -1,12 +1,13 @@
-const word = "HELLO"; // Word to guess
+const targetWord = "HELLO"; // Word to guess
+let guessWord = ["", "", "", "", ""];
 let currRow = 0;
 let currTile = 0;
 let row = document.getElementsByClassName("row")[currRow];
 let tiles = row.getElementsByClassName("tile");
 const result = document.getElementById("result");
 
-// Handle submitted guess
-const submitGuess = function () {
+// Function to handle submitted guess
+const submitGuess = async function () {
   // Word not long enough
   if (currTile < 5) {
     result.textContent = "Not enough letters!";
@@ -16,17 +17,26 @@ const submitGuess = function () {
     return;
   }
 
-  // TODO: Handle invalid word
+  const isValid = await isValidWord(guessWord.join(""));
 
-  let tempWord = word.split("");
+  // Word is invalid
+  if (!isValid) {
+    result.textContent = "Invalid word!";
+    result.classList.remove("shake");
+    void result.offsetWidth;
+    result.classList.add("shake");
+    return;
+  }
+
+  let target = targetWord.split("");
   let status = Array(5).fill("absent");
   let correctLetters = 0;
 
   // Identify any correct letters
   for (let i = 0; i < 5; i++) {
-    if (tiles[i].textContent.toUpperCase() == word[i]) {
+    if (tiles[i].textContent.toUpperCase() == targetWord[i]) {
       status[i] = "correct";
-      tempWord[i] = null; // Mark letter as used
+      target[i] = null; // Mark letter as used
       correctLetters++;
     }
   }
@@ -34,10 +44,10 @@ const submitGuess = function () {
   // Identify any present characters
   for (let i = 0; i < 5; i++) {
     if (status[i] == "correct") continue;
-    const index = tempWord.indexOf(tiles[i].textContent.toUpperCase());
+    const index = target.indexOf(tiles[i].textContent.toUpperCase());
     if (index !== -1) {
       status[i] = "present";
-      tempWord[index] = null;
+      target[index] = null;
     }
   }
 
@@ -57,7 +67,7 @@ const submitGuess = function () {
 
   // Player loses
   if (currRow == 5) {
-    result.textContent = `You lose! The word was ${word}!`;
+    result.textContent = `You lose! The word was ${targetWord}!`;
     result.classList.remove("shake");
     void result.offsetWidth;
     result.classList.add("shake");
@@ -77,10 +87,20 @@ const submitGuess = function () {
   }
 };
 
+// Function to check if word is valid
+const isValidWord = async function (word) {
+  const response = await fetch(
+    `https://api.datamuse.com/words?sp=${word}&max=1`
+  );
+  const data = await response.json();
+  return data.length > 0 && data[0].word.toLowerCase() === word.toLowerCase();
+};
+
 // Listen to key presses and take appropriate action
 document.addEventListener("keydown", function (event) {
   if (/^[a-zA-Z]$/.test(event.key) && currTile < 5) {
     tiles[currTile].textContent = event.key;
+    guessWord[currTile] = event.key;
     currTile++;
   } else if (event.key == "Backspace" && currTile > 0) {
     currTile--;
