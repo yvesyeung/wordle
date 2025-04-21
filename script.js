@@ -12,6 +12,13 @@ const getWord = async function () {
   return data.word;
 };
 
+// Function to animate result message
+const shake = function (message) {
+  message.classList.remove("shake");
+  void message.offsetWidth;
+  message.classList.add("shake");
+};
+
 // Function to handle submitted guess
 const submitGuess = async function () {
   const targetWord = await getWord();
@@ -19,9 +26,7 @@ const submitGuess = async function () {
   // Word not long enough
   if (currTile < 5) {
     result.textContent = "Not enough letters!";
-    result.classList.remove("shake");
-    void result.offsetWidth;
-    result.classList.add("shake");
+    shake(result);
     return;
   }
 
@@ -30,9 +35,7 @@ const submitGuess = async function () {
   // Word is invalid
   if (!isValid) {
     result.textContent = "Invalid word!";
-    result.classList.remove("shake");
-    void result.offsetWidth;
-    result.classList.add("shake");
+    shake(result);
     return;
   }
 
@@ -67,18 +70,14 @@ const submitGuess = async function () {
   // Player wins
   if (correctLetters == 5) {
     result.textContent = "You win! Play again tomorrow for a new word!";
-    result.classList.remove("shake");
-    void result.offsetWidth;
-    result.classList.add("shake");
+    shake(result);
     return;
   }
 
   // Player loses
   if (currRow == 5) {
     result.textContent = `You lose! The word was ${targetWord}!`;
-    result.classList.remove("shake");
-    void result.offsetWidth;
-    result.classList.add("shake");
+    shake(result);
     return;
   }
 
@@ -89,9 +88,7 @@ const submitGuess = async function () {
     row = document.getElementsByClassName("row")[currRow];
     tiles = row.getElementsByClassName("tile");
     result.textContent = "Guess again";
-    result.classList.remove("shake");
-    void result.offsetWidth;
-    result.classList.add("shake");
+    shake(result);
   }
 };
 
