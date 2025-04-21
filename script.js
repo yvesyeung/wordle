@@ -1,12 +1,3 @@
-let currRow = 0;
-let currTile = 0;
-let row = document.getElementsByClassName("row")[currRow];
-let tiles = row.getElementsByClassName("tile");
-const result = document.getElementById("result");
-
-const targetWord = getWord();
-let guessWord = ["", "", "", "", ""];
-
 // Function to get daily word
 const getWord = async function () {
   const response = await fetch("/word");
@@ -117,3 +108,12 @@ document.addEventListener("keydown", function (event) {
     submitGuess();
   }
 });
+
+const targetWord = getWord();
+let guessWord = ["", "", "", "", ""];
+
+let currRow = 0;
+let currTile = 0;
+let row = document.getElementsByClassName("row")[currRow];
+let tiles = row.getElementsByClassName("tile");
+const result = document.getElementById("result");
