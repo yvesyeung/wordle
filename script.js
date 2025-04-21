@@ -90,7 +90,7 @@ async function submitGuess() {
 
   // Player loses
   if (currRow == 5) {
-    result.textContent = `You lose! The word was ${targetWord}!`;
+    result.textContent = `The word was ${targetWord}`;
     shake(result);
     gameOver = true;
     return;
