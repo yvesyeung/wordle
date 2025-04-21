@@ -1,6 +1,7 @@
 // Manage game state
 const targetWord = await getWord();
 let guessWord = ["", "", "", "", ""];
+let gameOver = false;
 let currRow = 0;
 let currTile = 0;
 
@@ -83,6 +84,7 @@ async function submitGuess() {
   if (correctLetters == 5) {
     result.textContent = "You win! Play again tomorrow for a new word!";
     shake(result);
+    gameOver = true;
     return;
   }
 
@@ -90,6 +92,7 @@ async function submitGuess() {
   if (currRow == 5) {
     result.textContent = `You lose! The word was ${targetWord}!`;
     shake(result);
+    gameOver = true;
     return;
   }
 
@@ -106,6 +109,7 @@ async function submitGuess() {
 
 // Listen to key presses and take appropriate action
 document.addEventListener("keydown", function (event) {
+  if (gameOver) return;
   if (/^[a-zA-Z]$/.test(event.key) && currTile < 5) {
     tiles[currTile].textContent = event.key;
     guessWord[currTile] = event.key;
